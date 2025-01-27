@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <style>
+        /* Styling for the container that holds the todo items */
+        #container {
+            display: flex;
+            flex-direction: column; /* Stack the todo items vertically */
+            gap: 10px; /* Add some space between todo items */
+        }
+    </style>
+</head>
+<body>
+   <!-- Input section for entering category and details of the todo item -->
+   <div id="div">
+       <!-- Input for category (title) of the todo item -->
+       <input type="text" id="catogory" placeholder="CATEGORY"> <br>
+       <!-- Input for the details of the todo item -->
+       <input type="text" id="details" placeholder="DETAILS ABOUT IT"> <br>
+       <!-- Button to trigger the adding of the todo item -->
+       <button onclick="handleAddTodo()">ADD BUTTON</button>
+   </div>
+    <hr>
+    <!-- Container where the todo items will be displayed -->
+    <div id="container">
+        <!-- Todo items will be dynamically added here -->
+    </div>
+
+    <script>
+        // Getting the container where todos will be added
+        let container_main = document.getElementById("container");
+
+        // Function to handle adding a new todo item
+        function handleAddTodo() {
+            // Create a new div for the todo item
+            let todo = document.createElement("div");
+            todo.style.border = "1px solid black";  // Styling for the border of the todo item
+            todo.style.padding = "10px";  // Add padding to the todo item container
+
+            // Get the values from the category and details input fields
+            let getCatogory = document.getElementById("catogory");
+            let getDetails = document.getElementById("details");
+
+            // Check if both fields are filled; if not, show an alert
+            if (getCatogory.value === "" || getDetails.value === "") {
+                alert("Both fields are mandatory");
+            } else {
+                // Create and set up the title (category) of the todo
+                let title = document.createElement("h1");
+                title.innerText = getCatogory.value;
+
+                // Create and set up the details (description) of the todo
+                let details = document.createElement("p");
+                details.innerText = getDetails.value;
+
+                // Append the title and details to the todo item
+                todo.appendChild(title);
+                todo.appendChild(details);
+
+                // Create and style the Edit button
+                let edit = document.createElement("button");
+                edit.style.backgroundColor = "blue";  // Set background color to blue
+                edit.innerText = "EDIT";
+
+                // Create and style the Delete button
+                let deleted = document.createElement("button");
+                deleted.style.backgroundColor = "red";  // Set background color to red
+                deleted.innerText = "DELETE";
+
+                // Create and style the Completed button
+                let completed = document.createElement("button");
+                completed.style.backgroundColor = "green";  // Set background color to green
+                completed.innerText = "COMPLETED";
+
+                // Append the buttons to the todo item
+                todo.appendChild(edit);
+                todo.appendChild(deleted);
+                todo.appendChild(completed);
+
+                // Append the new todo item to the container
+                container_main.appendChild(todo);
+
+                // Event listener for the Edit button
+                edit.addEventListener("click", () => {
+                    // Pre-fill the input fields with the existing todo details
+                    getCatogory.value = title.innerText;
+                    getDetails.value = details.innerText;
+
+                    // Remove the todo item from the container
+                    container_main.removeChild(todo);
+                });
+
+                // Event listener for the Delete button
+                deleted.addEventListener("click", () => {
+                    // Remove the todo item from the container
+                    container_main.removeChild(todo);
+                });
+
+                // Event listener for the Completed button
+                completed.addEventListener("click", () => {
+                    // Strike-through the details text to mark the todo as completed
+                    details.style.textDecoration = "line-through";
+                });
+            }
+
+            // Clear the input fields after adding the todo item
+            getCatogory.value = "";
+            getDetails.value = "";
+        }
+    </script>
+</body>
+</html>
